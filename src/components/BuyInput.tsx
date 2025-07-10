@@ -47,9 +47,6 @@ const BuyInput: React.FC<{ ctaLabel?: string }> = ({ ctaLabel = 'Buy OMK' }) => 
         </button>
       </div>
 
-      {amount && allocation > 0 && (
-        )
-        }
       {amount && omkAllocation > 0 && (
         <div className="bg-bg-tertiary/50 border border-border rounded-lg p-4">
           <div className="flex justify-between items-center">
