@@ -3,14 +3,14 @@ import { handleBuy } from '../utils/handleBuy';
 import { ArrowRight } from 'lucide-react';
 import { calculateOMKAllocation } from '../utils/TokenCalculations';
 
-const BuyInput: React.FC<{ ctaLabel?: string }> = ({ ctaLabel = 'Buy Tokens' }) => {
+const BuyInput: React.FC<{ ctaLabel?: string }> = ({ ctaLabel = 'Buy OMK' }) => {
   const [amount, setAmount] = useState('0.3');
-  const [allocation, setAllocation] = useState(0);
+  const [omkAllocation, setOmkAllocation] = useState(0);
   const minAmount = 0.3;
 
   useEffect(() => {
     const tokens = calculateOMKAllocation(amount);
-    setAllocation(tokens);
+    setOmkAllocation(tokens);
   }, [amount]);
 
   const handlePurchase = () => {
@@ -52,12 +52,12 @@ const BuyInput: React.FC<{ ctaLabel?: string }> = ({ ctaLabel = 'Buy Tokens' }) 
           <div className="flex justify-between items-center">
             <span className="text-secondary text-sm">You will receive:</span>
             <span className="text-xl font-bold text-accent">
-              {allocation.toLocaleString()} Tokens
+              {omkAllocation.toLocaleString()} OMK
             </span>
           </div>
           <div className="flex justify-between items-center mt-2">
             <span className="text-secondary text-xs">Rate:</span>
-            <span className="text-secondary text-xs">1 BNB = 10,000 Tokens</span>
+            <span className="text-secondary text-xs">1 BNB = 10,000 OMK</span>
           </div>
         </div>
       )}

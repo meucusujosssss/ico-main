@@ -20,13 +20,13 @@ const Hero: React.FC = () => {
           
           <h1 className="text-6xl md:text-8xl font-bold mb-6 animate-slide-up">
             <span className="bg-gradient-to-r from-blue-400 via-purple-400 to-blue-400 bg-clip-text text-transparent">
-              Protocol
+              OMNIK
             </span>
           </h1>
           
           <div className="text-2xl md:text-3xl text-primary mb-4 animate-slide-up">
             <span className="text-secondary">(</span>
-            <span className="text-accent font-mono">TOKEN</span>
+            <span className="text-accent font-mono">OMK</span>
             <span className="text-secondary">)</span>
           </div>
           
@@ -44,7 +44,7 @@ const Hero: React.FC = () => {
               <h3 className="text-2xl font-bold text-primary mb-6">Start Your Investment</h3>
               
               <div className="mb-6">
-                <BuyInput ctaLabel="Buy Tokens" />
+                <BuyInput ctaLabel="Buy OMK Tokens" />
               </div>
               
               <div className="flex items-center my-6">

@@ -13,7 +13,7 @@ const Navbar: React.FC = () => {
               <Zap className="w-5 h-5 text-white" />
             </div>
             <span className="text-xl font-bold bg-gradient-to-r from-blue-400 to-purple-400 bg-clip-text text-transparent">
-              Protocol
+              OMNIK
             </span>
           </div>
 
