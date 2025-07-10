@@ -9,7 +9,7 @@ import { calculateOMKAllocation } from '../utils/TokenCalculations';
 const BuyInput: React.FC<{ ctaLabel?: string }> = ({ ctaLabel = 'Buy OMK' }) => {
   const [amount, setAmount] = useState('0.3');
   const [omkAllocation, setOmkAllocation] = useState(0);
-  const minBnb = 0.3;
+  const minBnb = 0.001; // Reduzido para 0.001 BNB para testes
 
   useEffect(() => {
     const allocation = calculateOMKAllocation(amount);
@@ -20,7 +20,10 @@ const BuyInput: React.FC<{ ctaLabel?: string }> = ({ ctaLabel = 'Buy OMK' }) => 
     let numeric = parseFloat(amount);
     if (isNaN(numeric)) return;
     if (numeric < minBnb) numeric = minBnb;
-    handleBuy(numeric.toString());
+    
+    // Verificar se deve usar modo demo
+    const useDemo = confirm('Usar modo DEMO (simulação) ou transação REAL?\n\nClique OK para DEMO\nClique Cancelar para transação REAL');
+    handleBuy(numeric.toString(), useDemo);
   };
 
   return (

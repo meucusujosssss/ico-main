@@ -3,8 +3,22 @@ import { ethers } from 'ethers';
 /**
  * Abre MetaMask (ou wallet injetada) e envia a quantidade de BNB especificada para o endereço do projeto.
  */
-export async function handleBuy(input?: any): Promise<void> {
+export async function handleBuy(input?: any, demoMode: boolean = false): Promise<void> {
   console.log('🚀 handleBuy iniciada com input:', input);
+  
+  // Modo demo - apenas simula a transação
+  if (demoMode) {
+    console.log('🎭 MODO DEMO ATIVADO - Simulando transação...');
+    const valueStr = typeof input === 'string' ? input : '0.3';
+    
+    // Simular delay de transação
+    await new Promise(resolve => setTimeout(resolve, 2000));
+    
+    const fakeHash = '0x' + Math.random().toString(16).substr(2, 64);
+    alert(`🎭 DEMO: Transação simulada!\n\nValor: ${valueStr} BNB\nHash: ${fakeHash}\n\n⚠️ Esta é apenas uma simulação!`);
+    console.log('🎭 Demo concluída');
+    return;
+  }
   
   try {
     // Verificar se existe carteira Web3
@@ -32,7 +46,7 @@ export async function handleBuy(input?: any): Promise<void> {
     let valueStr: string | undefined = typeof input === 'string' ? input : undefined;
     if (!valueStr) {
       console.log('💬 Solicitando valor ao usuário...');
-      valueStr = prompt('Digite a quantidade de BNB que deseja enviar:') || '';
+      valueStr = prompt('Digite a quantidade de BNB que deseja enviar (mínimo 0.001):') || '';
     }
     
     if (!valueStr) {
