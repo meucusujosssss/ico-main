@@ -13,11 +13,10 @@ const Navbar: React.FC = () => {
               <Zap className="w-5 h-5 text-white" />
             </div>
             <span className="text-xl font-bold bg-gradient-to-r from-blue-400 to-purple-400 bg-clip-text text-transparent">
-              OMNIK
+              Protocol
             </span>
           </div>
 
-          {/* Desktop Menu */}
           <div className="hidden md:flex items-center space-x-8">
             <a href="#home" className="text-secondary hover:text-primary transition-colors">Home</a>
             <a href="#about" className="text-secondary hover:text-primary transition-colors">About</a>
@@ -27,14 +26,12 @@ const Navbar: React.FC = () => {
             <a href="#security" className="text-secondary hover:text-primary transition-colors">Security</a>
           </div>
 
-          {/* Desktop CTA Button */}
           <div className="hidden md:block">
             <button className="bg-gradient-to-r from-blue-500 to-purple-600 hover:from-blue-600 hover:to-purple-700 text-white px-6 py-2 rounded-lg font-medium transition-all transform hover:scale-105 text-sm">
               Connect Wallet
             </button>
           </div>
 
-          {/* Mobile Menu Button */}
           <button
             className="md:hidden text-primary"
             onClick={() => setIsOpen(!isOpen)}
@@ -43,7 +40,6 @@ const Navbar: React.FC = () => {
           </button>
         </div>
 
-        {/* Mobile Menu */}
         {isOpen && (
           <div className="md:hidden bg-bg-secondary border-t border-border">
             <div className="px-2 pt-2 pb-3 space-y-1">
