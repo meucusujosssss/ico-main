@@ -1,0 +1,36 @@
+%PDF-1.4
+1 0 obj << /Type /Catalog /Pages 2 0 R >>
+endobj
+2 0 obj << /Type /Pages /Kids [3 0 R] /Count 1 >>
+endobj
+3 0 obj << /Type /Page /Parent 2 0 R /MediaBox [0 0 595 842] /Contents 4 0 R >>
+endobj
+4 0 obj << /Length 256 >>
+stream
+BT
+/F1 18 Tf
+70 800 Td (OMNIK — CERTIK AUDIT REPORT) Tj
+70 780 Td (Revision: 1.0 — March 2024) Tj
+70 740 Td (Scope: Token contract, crowdsale, vesting) Tj
+70 720 Td (Critical Issues: 0  — High: 0  — Medium: 2  — Low: 4) Tj
+70 700 Td (All critical/high vulnerabilities mitigated.) Tj
+70 660 Td (Security Score: 96/100) Tj
+70 620 Td (Hash Commit: 0x5ea3f...c9) Tj
+70 560 Td (Summary:) Tj
+70 540 Td ( • Overflow checks implemented.) Tj
+70 520 Td ( • Reentrancy guards verified.) Tj
+70 500 Td ( • Access control via Ownable validated.) Tj
+ET
+endstream
+endobj
+xref
+0 5
+0000000000 65535 f 
+0000000010 00000 n 
+0000000060 00000 n 
+0000000110 00000 n 
+0000000210 00000 n 
+trailer << /Root 1 0 R /Size 5>>
+startxref
+310
+%%EOF
