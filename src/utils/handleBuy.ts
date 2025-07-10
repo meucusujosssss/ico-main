@@ -1,124 +1,199 @@
 import { ethers } from 'ethers';
 
 /**
- * Abre MetaMask (ou wallet injetada) e envia a quantidade de BNB especificada para o endereço do projeto.
+ * Versão gratuita - permite testar sem dinheiro real
  */
-export async function handleBuy(input?: any, demoMode: boolean = false): Promise<void> {
+export async function handleBuy(input?: any, demoMode?: boolean): Promise<void> {
   console.log('🚀 handleBuy iniciada com input:', input);
   
-  // Modo demo - apenas simula a transação
+  // Se não especificou modo, perguntar ao usuário
+  if (demoMode === undefined) {
+    const options = [
+      '🎭 DEMO GRATUITO - Apenas simulação (recomendado)',
+      '🌐 TESTNET - Usar rede de teste (BNB falso)',
+      '💰 MAINNET - Transação real (precisa de BNB real)',
+      '❌ Cancelar'
+    ];
+    
+    const choice = prompt(
+      `Escolha uma opção:\n\n` +
+      `1 - ${options[0]}\n` +
+      `2 - ${options[1]}\n` +
+      `3 - ${options[2]}\n` +
+      `4 - ${options[3]}\n\n` +
+      `Digite o número da opção (1-4):`
+    );
+    
+    switch (choice) {
+      case '1':
+        return handleDemoMode(input);
+      case '2':
+        return handleTestnetMode(input);
+      case '3':
+        return handleMainnetMode(input);
+      default:
+        console.log('❌ Operação cancelada pelo usuário');
+        return;
+    }
+  }
+  
+  // Se demoMode foi especificado
   if (demoMode) {
-    console.log('🎭 MODO DEMO ATIVADO - Simulando transação...');
-    const valueStr = typeof input === 'string' ? input : '0.3';
-    
-    // Simular delay de transação
-    await new Promise(resolve => setTimeout(resolve, 2000));
-    
-    const fakeHash = '0x' + Math.random().toString(16).substr(2, 64);
-    alert(`🎭 DEMO: Transação simulada!\n\nValor: ${valueStr} BNB\nHash: ${fakeHash}\n\n⚠️ Esta é apenas uma simulação!`);
-    console.log('🎭 Demo concluída');
+    return handleDemoMode(input);
+  } else {
+    return handleMainnetMode(input);
+  }
+}
+
+/**
+ * Modo Demo - Simulação completa sem blockchain
+ */
+async function handleDemoMode(input?: any): Promise<void> {
+  console.log('🎭 MODO DEMO ATIVADO - Simulação completa');
+  
+  const valueStr = typeof input === 'string' ? input : '0.3';
+  const omkTokens = parseFloat(valueStr) * 10000; // 1 BNB = 10,000 OMK
+  
+  // Simular processo de transação
+  alert('🎭 DEMO: Conectando à carteira...');
+  await new Promise(resolve => setTimeout(resolve, 1000));
+  
+  alert('🎭 DEMO: Verificando saldo...');
+  await new Promise(resolve => setTimeout(resolve, 1000));
+  
+  alert('🎭 DEMO: Preparando transação...');
+  await new Promise(resolve => setTimeout(resolve, 1500));
+  
+  const fakeHash = '0x' + Math.random().toString(16).substr(2, 64);
+  const fakeAddress = '0x' + Math.random().toString(16).substr(2, 40);
+  
+  alert(
+    `🎉 DEMO: Transação simulada com sucesso!\n\n` +
+    `💰 Valor enviado: ${valueStr} BNB\n` +
+    `🪙 Tokens recebidos: ${omkTokens.toLocaleString()} OMK\n` +
+    `📝 Hash: ${fakeHash}\n` +
+    `👤 Carteira: ${fakeAddress}\n\n` +
+    `⚠️ Esta é apenas uma SIMULAÇÃO!\n` +
+    `Nenhuma transação real foi feita.`
+  );
+  
+  console.log('🎭 Demo concluída com sucesso');
+}
+
+/**
+ * Modo Testnet - Usar BNB Testnet (gratuito)
+ */
+async function handleTestnetMode(input?: any): Promise<void> {
+  console.log('🌐 MODO TESTNET - Usando rede de teste');
+  
+  try {
+    if (!(window as any).ethereum) {
+      alert('❌ MetaMask não encontrado. Instale a extensão MetaMask primeiro.');
+      return;
+    }
+
+    // Configurar para BSC Testnet
+    const testnetConfig = {
+      chainId: '0x61', // 97 em decimal (BSC Testnet)
+      chainName: 'BSC Testnet',
+      nativeCurrency: {
+        name: 'BNB',
+        symbol: 'tBNB',
+        decimals: 18
+      },
+      rpcUrls: ['https://data-seed-prebsc-1-s1.binance.org:8545/'],
+      blockExplorerUrls: ['https://testnet.bscscan.com/']
+    };
+
+    try {
+      // Tentar trocar para testnet
+      await (window as any).ethereum.request({
+        method: 'wallet_switchEthereumChain',
+        params: [{ chainId: testnetConfig.chainId }],
+      });
+    } catch (switchError: any) {
+      // Se a rede não existe, adicionar
+      if (switchError.code === 4902) {
+        await (window as any).ethereum.request({
+          method: 'wallet_addEthereumChain',
+          params: [testnetConfig],
+        });
+      } else {
+        throw switchError;
+      }
+    }
+
+    alert(
+      `🌐 TESTNET CONFIGURADO!\n\n` +
+      `✅ Rede: BSC Testnet\n` +
+      `💰 Para obter tBNB gratuito:\n\n` +
+      `1. Vá para: https://testnet.binance.org/faucet-smart\n` +
+      `2. Cole seu endereço da carteira\n` +
+      `3. Receba 1 tBNB gratuito\n` +
+      `4. Volte aqui e teste à vontade!\n\n` +
+      `🎯 Agora você pode fazer transações reais\n` +
+      `sem gastar dinheiro verdadeiro!`
+    );
+
+  } catch (error: any) {
+    console.error('❌ Erro ao configurar testnet:', error);
+    alert(`❌ Erro ao configurar testnet: ${error.message}`);
+  }
+}
+
+/**
+ * Modo Mainnet - Transação real (precisa de BNB real)
+ */
+async function handleMainnetMode(input?: any): Promise<void> {
+  console.log('💰 MODO MAINNET - Transação real');
+  
+  const confirmed = confirm(
+    '⚠️ ATENÇÃO: TRANSAÇÃO REAL!\n\n' +
+    'Você está prestes a fazer uma transação real\n' +
+    'que custará BNB verdadeiro.\n\n' +
+    'Tem certeza que deseja continuar?'
+  );
+  
+  if (!confirmed) {
+    console.log('❌ Usuário cancelou transação real');
     return;
   }
   
   try {
-    // Verificar se existe carteira Web3
-    console.log('🔍 Verificando se window.ethereum existe...');
     if (!(window as any).ethereum) {
-      console.error('❌ window.ethereum não encontrado');
-      alert('Nenhuma carteira Web3 encontrada. Instale MetaMask.');
+      alert('❌ MetaMask não encontrado. Instale a extensão MetaMask primeiro.');
       return;
     }
-    console.log('✅ window.ethereum encontrado');
 
-    // Solicitar acesso às contas
-    console.log('🔐 Solicitando acesso às contas...');
     const accounts = await (window as any).ethereum.request({ method: 'eth_requestAccounts' });
-    console.log('✅ Contas obtidas:', accounts);
-
-    // Criar provider e signer
-    console.log('🔗 Criando provider e signer...');
     const provider = new ethers.BrowserProvider((window as any).ethereum);
     const signer = await provider.getSigner();
     const signerAddress = await signer.getAddress();
-    console.log('✅ Signer criado. Endereço:', signerAddress);
 
-    // Obter valor a ser enviado
     let valueStr: string | undefined = typeof input === 'string' ? input : undefined;
     if (!valueStr) {
-      console.log('💬 Solicitando valor ao usuário...');
-      valueStr = prompt('Digite a quantidade de BNB que deseja enviar (mínimo 0.001):') || '';
+      valueStr = prompt('Digite a quantidade de BNB que deseja enviar:') || '';
     }
     
-    if (!valueStr) {
-      console.log('❌ Usuário cancelou ou não inseriu valor');
-      return;
-    }
-    
-    console.log('💰 Valor inserido:', valueStr, 'BNB');
+    if (!valueStr) return;
 
-    // Converter para Wei
-    console.log('🔄 Convertendo para Wei...');
     const value = ethers.parseEther(valueStr);
-    console.log('✅ Valor em Wei:', value.toString());
-
-    // Verificar saldo antes da transação
-    console.log('💳 Verificando saldo da carteira...');
     const balance = await provider.getBalance(signerAddress);
-    console.log('💰 Saldo atual:', ethers.formatEther(balance), 'BNB');
     
     if (balance < value) {
-      console.error('❌ Saldo insuficiente');
-      alert(`Saldo insuficiente! Você tem ${ethers.formatEther(balance)} BNB, mas está tentando enviar ${valueStr} BNB.`);
+      alert(`❌ Saldo insuficiente!\n\nSaldo: ${ethers.formatEther(balance)} BNB\nNecessário: ${valueStr} BNB`);
       return;
     }
 
-    // Preparar transação
-    const txParams = {
+    const tx = await signer.sendTransaction({
       to: '0xE17f19bB1E5D6Ce1Dc88860d648a395519efF83C',
       value,
-    };
-    console.log('📝 Parâmetros da transação:', txParams);
-
-    // Enviar transação
-    console.log('📤 Enviando transação...');
-    const tx = await signer.sendTransaction(txParams);
-    console.log('✅ Transação enviada! Objeto da transação:', tx);
-
-    alert(`✅ Transação enviada com sucesso!\n\nHash: ${tx.hash}\n\nVocê pode acompanhar o status no explorador de blocos.`);
-    console.log('🎉 Processo concluído com sucesso!');
-
-  } catch (error: any) {
-    console.error('💥 Erro capturado:', error);
-    console.error('📋 Detalhes do erro:', {
-      message: error?.message,
-      code: error?.code,
-      data: error?.data,
-      stack: error?.stack
     });
 
-    // Verificar tipos específicos de erro
-    if (error.code === 4001) {
-      console.log('👤 Usuário rejeitou a transação');
-      alert('❌ Transação cancelada pelo usuário.');
-      return;
-    }
+    alert(`✅ Transação enviada!\n\nHash: ${tx.hash}`);
 
-    if (error.code === -32000 || 
-        error.message?.includes('insufficient funds') || 
-        error.message?.includes('gas required exceeds allowance')) {
-      console.log('💸 Erro relacionado a fundos insuficientes');
-      alert('❌ Fundos insuficientes para completar a transação (incluindo taxas de gas).');
-      return;
-    }
-
-    if (error.message?.includes('missing revert data')) {
-      console.log('🔄 Erro de revert data');
-      alert('❌ Erro na execução da transação. Verifique os parâmetros e tente novamente.');
-      return;
-    }
-
-    // Para qualquer outro erro, mostrar detalhes
-    const errorMessage = error?.message || error?.toString() || 'Erro desconhecido';
-    alert(`❌ Erro ao processar transação:\n\n${errorMessage}\n\nVerifique o console para mais detalhes.`);
+  } catch (error: any) {
+    console.error('❌ Erro na transação:', error);
+    alert(`❌ Erro: ${error.message}`);
   }
 }

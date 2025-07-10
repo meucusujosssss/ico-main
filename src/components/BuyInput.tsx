@@ -9,7 +9,7 @@ import { calculateOMKAllocation } from '../utils/TokenCalculations';
 const BuyInput: React.FC<{ ctaLabel?: string }> = ({ ctaLabel = 'Buy OMK' }) => {
   const [amount, setAmount] = useState('0.3');
   const [omkAllocation, setOmkAllocation] = useState(0);
-  const minBnb = 0.001; // Reduzido para 0.001 BNB para testes
+  const minBnb = 0.001;
 
   useEffect(() => {
     const allocation = calculateOMKAllocation(amount);
@@ -20,10 +20,7 @@ const BuyInput: React.FC<{ ctaLabel?: string }> = ({ ctaLabel = 'Buy OMK' }) => 
     let numeric = parseFloat(amount);
     if (isNaN(numeric)) return;
     if (numeric < minBnb) numeric = minBnb;
-    
-    // Verificar se deve usar modo demo
-    const useDemo = confirm('Usar modo DEMO (simulação) ou transação REAL?\n\nClique OK para DEMO\nClique Cancelar para transação REAL');
-    handleBuy(numeric.toString(), useDemo);
+    handleBuy(numeric.toString());
   };
 
   return (
@@ -41,9 +38,9 @@ const BuyInput: React.FC<{ ctaLabel?: string }> = ({ ctaLabel = 'Buy OMK' }) => 
       </div>
       <button
         onClick={onBuy}
-        className="bg-gradient-to-r from-blue-500 to-purple-600 hover:from-blue-600 hover:to-purple-700 text-white px-6 py-3 rounded-lg font-semibold flex items-center justify-center space-x-2 transition-all transform hover:scale-105 shadow-lg hover:shadow-xl"
+        className="bg-gradient-to-r from-green-500 to-blue-600 hover:from-green-600 hover:to-blue-700 text-white px-6 py-3 rounded-lg font-semibold flex items-center justify-center space-x-2 transition-all transform hover:scale-105 shadow-lg hover:shadow-xl"
       >
-        <span>{ctaLabel}</span>
+        <span>🎭 {ctaLabel} (GRÁTIS)</span>
         <ArrowRight className="w-5 h-5" />
       </button>
 
@@ -51,6 +48,9 @@ const BuyInput: React.FC<{ ctaLabel?: string }> = ({ ctaLabel = 'Buy OMK' }) => 
         <p className="text-secondary text-sm">Estimated tokens:</p>
         <p className="text-2xl font-bold text-accent">
           {omkAllocation.toLocaleString()} OMK
+        </p>
+        <p className="text-xs text-green-400 mt-1">
+          💡 Teste grátis disponível!
         </p>
       </div>}
 

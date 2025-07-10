@@ -43,10 +43,22 @@ const Hero: React.FC = () => {
           
           {/* CTA Buttons */}
           <div className="flex flex-col sm:flex-row gap-6 justify-center mb-16 animate-slide-up">
-            <BuyInput ctaLabel="Buy OMK Tokens" />
+            <BuyInput ctaLabel="Testar Grátis" />
             <button onClick={downloadWhitepaper} className="border-2 border-accent hover:bg-accent hover:text-bg-primary text-accent px-10 py-4 rounded-lg font-semibold transition-all">
               Download Whitepaper
             </button>
+          </div>
+          
+          {/* Free Demo Notice */}
+          <div className="bg-green-500/10 border border-green-500/30 rounded-xl p-6 mb-12 max-w-2xl mx-auto">
+            <div className="flex items-center justify-center space-x-2 mb-3">
+              <span className="text-2xl">🎭</span>
+              <h3 className="text-xl font-bold text-green-400">Teste 100% Gratuito</h3>
+            </div>
+            <p className="text-secondary text-center">
+              Experimente todas as funcionalidades sem gastar nenhum dinheiro real!
+              Escolha entre simulação completa ou testnet com BNB falso.
+            </p>
           </div>
           
           {/* Key Features */}
