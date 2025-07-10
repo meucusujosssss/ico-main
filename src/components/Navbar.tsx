@@ -1,11 +1,8 @@
 import React, { useState } from 'react';
-import BuyInput from './BuyInput';
 import { Menu, X, Zap } from 'lucide-react';
 
 const Navbar: React.FC = () => {
   const [isOpen, setIsOpen] = useState(false);
-
-  // handleBuy importado de utils
 
   return (
     <nav className="fixed top-0 w-full bg-bg-primary/95 backdrop-blur-sm border-b border-border z-50">
@@ -28,9 +25,13 @@ const Navbar: React.FC = () => {
             <a href="#roadmap" className="text-secondary hover:text-primary transition-colors">Roadmap</a>
             <a href="#team" className="text-secondary hover:text-primary transition-colors">Team</a>
             <a href="#security" className="text-secondary hover:text-primary transition-colors">Security</a>
-            <div className="mt-1">
-              <BuyInput ctaLabel="Buy OMK" />
-            </div>
+          </div>
+
+          {/* Desktop CTA Button */}
+          <div className="hidden md:block">
+            <button className="bg-gradient-to-r from-blue-500 to-purple-600 hover:from-blue-600 hover:to-purple-700 text-white px-6 py-2 rounded-lg font-medium transition-all transform hover:scale-105 text-sm">
+              Connect Wallet
+            </button>
           </div>
 
           {/* Mobile Menu Button */}
@@ -52,8 +53,10 @@ const Navbar: React.FC = () => {
               <a href="#roadmap" className="block px-3 py-2 text-secondary hover:text-primary">Roadmap</a>
               <a href="#team" className="block px-3 py-2 text-secondary hover:text-primary">Team</a>
               <a href="#security" className="block px-3 py-2 text-secondary hover:text-primary">Security</a>
-              <div className="mt-2 px-3 py-2">
-                <BuyInput ctaLabel="Buy OMK" />
+              <div className="px-3 py-2">
+                <button className="w-full bg-gradient-to-r from-blue-500 to-purple-600 hover:from-blue-600 hover:to-purple-700 text-white px-4 py-2 rounded-lg font-medium transition-all text-sm">
+                  Connect Wallet
+                </button>
               </div>
             </div>
           </div>

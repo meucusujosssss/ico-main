@@ -41,12 +41,31 @@ const Hero: React.FC = () => {
             Join 50,000+ investors who achieved 847% average ROI in our previous launches.
           </p>
           
-          {/* CTA Buttons */}
-          <div className="flex flex-col sm:flex-row gap-6 justify-center mb-16 animate-slide-up">
-            <BuyInput ctaLabel="Buy OMK Tokens" />
-            <button onClick={downloadWhitepaper} className="border-2 border-accent hover:bg-accent hover:text-bg-primary text-accent px-10 py-4 rounded-lg font-semibold transition-all">
-              Download Whitepaper
-            </button>
+          {/* CTA Section - Redesigned */}
+          <div className="max-w-2xl mx-auto mb-16 animate-slide-up">
+            <div className="bg-bg-secondary/50 backdrop-blur-sm border border-border rounded-2xl p-8">
+              <h3 className="text-2xl font-bold text-primary mb-6">Start Your Investment</h3>
+              
+              {/* Buy Input Section */}
+              <div className="mb-6">
+                <BuyInput ctaLabel="Buy OMK Tokens" />
+              </div>
+              
+              {/* Divider */}
+              <div className="flex items-center my-6">
+                <div className="flex-1 h-px bg-border"></div>
+                <span className="px-4 text-secondary text-sm">or</span>
+                <div className="flex-1 h-px bg-border"></div>
+              </div>
+              
+              {/* Secondary Action */}
+              <button 
+                onClick={downloadWhitepaper} 
+                className="w-full border-2 border-accent hover:bg-accent hover:text-bg-primary text-accent px-8 py-3 rounded-lg font-semibold transition-all"
+              >
+                Download Whitepaper
+              </button>
+            </div>
           </div>
           
           {/* Key Features */}
